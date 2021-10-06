@@ -1,3 +1,5 @@
+using System.Net.Security;
+using System.Net.Mime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,13 @@ namespace back
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddCors(options => {
+                options.AddDefaultPolicy(builder =>
+                builder.WithOrigins("https://localhost:5003")
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -48,6 +57,8 @@ namespace back
 
             app.UseRouting();
 
+            app.UseCors();
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
