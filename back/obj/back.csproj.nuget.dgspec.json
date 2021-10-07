@@ -10,11 +10,11 @@
         "projectUniqueName": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/back/back.csproj",
         "projectName": "back",
         "projectPath": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/back/back.csproj",
-        "packagesPath": "/home/miza/.nuget/packages/",
+        "packagesPath": "/root/.nuget/packages/",
         "outputPath": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/back/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/miza/.nuget/NuGet/NuGet.Config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -59,6 +59,14 @@
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[5.0.10, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[5.0.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

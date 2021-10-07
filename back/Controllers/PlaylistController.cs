@@ -55,15 +55,8 @@ namespace yourmusic.Controllers
         [HttpPost]
         public IActionResult PostPlayList(Playlist playlist) 
         {
-            Playlist pl = new Playlist()
-            {
-                Name = playlist.Name,
-                Description = playlist.Description,
-                ReleaseDate = playlist.ReleaseDate,
-                UrlImage = playlist.UrlImage,
-                Musics = playlist.Musics
-            };
-            _db.Playlists.Add(pl);
+            playlist.Id = 0;
+            _db.Playlists.Add(playlist);
             _db.SaveChanges();
             return Ok();
         }
@@ -72,22 +65,13 @@ namespace yourmusic.Controllers
         [Route("{id}")]
         public IActionResult UpdatePlaylist(int id, Playlist playlist)
         {
-            Playlist pl = _db.Playlists.Find(id);
-            if(pl == null) {
+            if(_db.Playlists.Find(id) == null) {
                 return NoContent();
             }
 
-            pl = new Playlist()
-            {
-                Id = id,
-                Name = playlist.Name,
-                Description = playlist.Description,
-                ReleaseDate = playlist.ReleaseDate,
-                UrlImage = playlist.UrlImage,
-                Musics = playlist.Musics
-            };
+            playlist.Id = id;
 
-            _db.Playlists.Update(pl);
+            _db.Playlists.Update(playlist);
             _db.SaveChanges();
 
             return Ok($"{playlist.Id} is updated");

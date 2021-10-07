@@ -15,7 +15,6 @@ namespace yourmusic.Context
         public DbSet<Playlist> Playlists { get; set; }
 
         public ContextDatabase(DbContextOptions<ContextDatabase> options) : base(options) {}
-
     }
 
 }

@@ -48,15 +48,8 @@ namespace yourmusic.Controllers
         [HttpPost]
         public IActionResult PostMusic(Music music) 
         {
-            Music m = new Music()
-            {
-                Name = music.Name,
-                Artist = music.Artist,
-                UrlImage = music.UrlImage,
-                UrlMusic = music.UrlMusic,
-                ReleaseDate = music.ReleaseDate
-            };
-            _db.Musics.Add(m);
+            music.Id = 0;
+            _db.Musics.Add(music);
             _db.SaveChanges();
             return Ok();
         }
@@ -82,21 +75,10 @@ namespace yourmusic.Controllers
         [Route("{id}")]
         public IActionResult UpdateMusic(int id, Music music)
         {
-            Music m = _db.Musics.Find(music.Id);
-            if(music == null) {
+            if(_db.Musics.Find(music.Id) == null) {
                 return NoContent();
             }
-
-            m = new Music()
-            {
-                Id = id,
-                Name = music.Name,
-                Artist = music.Artist,
-                UrlImage = music.UrlImage,
-                UrlMusic = music.UrlMusic,
-                ReleaseDate = music.ReleaseDate
-            };
-
+            music.Id = id;
             _db.Musics.Update(music);
             _db.SaveChanges();
 

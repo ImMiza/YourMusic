@@ -1,25 +1,16 @@
-using System.Net.Security;
-using System.Net.Mime;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using yourmusic.Context;
-using Microsoft.EntityFrameworkCore;
 using yourmusic.Auth;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace back
 {
@@ -47,7 +38,8 @@ namespace back
             });
 
             services.AddDbContext<ContextDatabase>(options => 
-                options.UseSqlite($"Data Source={_dbPath}"));
+                options.UseSqlite($"Data Source={_dbPath}")
+            );
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -55,7 +47,7 @@ namespace back
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "back", Version = "v1" });
             });
 
-            string key = "allan";
+            string key = "5v8x/A?D(G+KbPeS";
 
             services.AddAuthentication(x => 
             {
@@ -74,7 +66,7 @@ namespace back
                 };
             });
 
-            services.AddSingleton<IAuth>(new AuthManager(key));
+            services.AddSingleton<AuthManager>(new AuthManager(key));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

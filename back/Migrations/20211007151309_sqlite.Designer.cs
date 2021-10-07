@@ -9,8 +9,8 @@ using yourmusic.Context;
 namespace back.Migrations
 {
     [DbContext(typeof(ContextDatabase))]
-    [Migration("20211007132031_addUser")]
-    partial class addUser
+    [Migration("20211007151309_sqlite")]
+    partial class sqlite
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

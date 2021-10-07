@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace back.Migrations
 {
-    public partial class Init : Migration
+    public partial class sqlite : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,13 +16,25 @@ namespace back.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     UrlImage = table.Column<string>(type: "TEXT", nullable: true),
-                    RealeaseDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
-                    Artist = table.Column<string>(type: "TEXT", nullable: true)
+                    ReleaseDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Playlists", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Username = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -35,7 +47,7 @@ namespace back.Migrations
                     Artist = table.Column<string>(type: "TEXT", nullable: false),
                     UrlImage = table.Column<string>(type: "TEXT", nullable: true),
                     UrlMusic = table.Column<string>(type: "TEXT", nullable: false),
-                    RealeaseDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     PlaylistId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -59,6 +71,9 @@ namespace back.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Musics");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Playlists");
