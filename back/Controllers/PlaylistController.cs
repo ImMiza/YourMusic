@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using yourmusic.Models;
 using yourmusic.Context;
+using Microsoft.AspNetCore.Authorization;
 
 namespace yourmusic.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PlaylistControllers : ControllerBase

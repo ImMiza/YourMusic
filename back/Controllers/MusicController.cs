@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using yourmusic.Models;
 using yourmusic.Context;
+using Microsoft.AspNetCore.Authorization;
 
 namespace yourmusic.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MusicControllers : ControllerBase
@@ -25,8 +27,7 @@ namespace yourmusic.Controllers
         [Route("{id}")]
         public Music GetMusicById(int id)
         {
-            Music music = _db.Musics.Find(id);
-            return music;
+            return _db.Musics.Find(id);
         }
 
         [HttpGet]

@@ -10,11 +10,11 @@
         "projectUniqueName": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/back/back.csproj",
         "projectName": "back",
         "projectPath": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/back/back.csproj",
-        "packagesPath": "/root/.nuget/packages/",
+        "packagesPath": "/home/miza/.nuget/packages/",
         "outputPath": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/back/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/root/.nuget/NuGet/NuGet.Config"
+          "/home/miza/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -38,6 +38,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.10, )"
@@ -55,6 +63,14 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
+            },
+            "System.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[5.0.0-rc1-211161024, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.13.1, )"
             }
           },
           "imports": [

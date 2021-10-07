@@ -10,7 +10,7 @@ namespace yourmusic.Context
 
         public DbSet<Music> Musics { get; set; }
 
-        public DbSet<Album> Albums { get; set; }
+        public DbSet<User> Users { get; set; }
     
         public DbSet<Playlist> Playlists { get; set; }
 

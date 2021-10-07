@@ -1,0 +1,46 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+
+namespace yourmusic.Auth
+{
+    public class AuthManager : IAuth
+    {
+
+        private readonly string _key;
+
+        public AuthManager(string key) 
+        {
+            this._key = key;
+        }
+
+        public string Connection(string username, string password)
+        {
+            if(!GetUser(username, password)) {
+                return null;
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenKey = Encoding.ASCII.GetBytes(_key);
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new Claim[] 
+                {
+                    new Claim(ClaimTypes.Name, username)
+                }),
+                Expires = System.DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        private bool GetUser(string username, string password) 
+        {
+            //TODO table user 
+            return true;
+        }
+    }
+}
