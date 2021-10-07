@@ -1,3 +1,5 @@
+using System.Net.Security;
+using System.Net.Mime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +13,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using yourmusic.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace back
 {
     public class Startup
     {
+
+        private static string _dbPath =  $"{Environment.CurrentDirectory}/Database/database.sqlite";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +33,16 @@ namespace back
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options => {
+                options.AddDefaultPolicy(builder =>
+                builder.WithOrigins("https://localhost:5003")
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            });
+
+            services.AddDbContext<ContextDatabase>(options => 
+                options.UseSqlite($"Data Source={_dbPath}"));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -48,6 +65,8 @@ namespace back
 
             app.UseRouting();
 
+            app.UseCors();
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
