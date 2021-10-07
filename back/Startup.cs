@@ -13,11 +13,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using yourmusic.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace back
 {
     public class Startup
     {
+
+        private static string _dbPath =  $"{Environment.CurrentDirectory}/Database/database.sqlite";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,6 +40,9 @@ namespace back
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             });
+
+            services.AddDbContext<ContextDatabase>(options => 
+                options.UseSqlite($"Data Source={_dbPath}"));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -20,6 +20,6 @@ namespace yourmusic.Models
         public ICollection<Music> Musics { get; set; }
 
         [Required]
-        public DateTime RealeaseDate { get; set; }
+        public DateTime ReleaseDate { get; set; }
     }
 }

@@ -19,6 +19,6 @@ namespace yourmusic.Models
         public string UrlMusic { get; set; }
 
         [Required]
-        public DateTime RealeaseDate { get; set; }
+        public DateTime ReleaseDate { get; set; }
     }
 }
