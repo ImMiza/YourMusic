@@ -10,11 +10,11 @@
         "projectUniqueName": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/back/back.csproj",
         "projectName": "back",
         "projectPath": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/back/back.csproj",
-        "packagesPath": "/home/miza/.nuget/packages/",
+        "packagesPath": "/root/.nuget/packages/",
         "outputPath": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/back/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/miza/.nuget/NuGet/NuGet.Config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -38,6 +38,20 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
