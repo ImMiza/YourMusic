@@ -36,8 +36,8 @@ namespace yourmusic.Controllers
             bool check = DateTime.TryParse(releaseDate, out time);
             List<Music> list = _db.Musics
                  .Where(music =>
-                 (name == null || music.Name.Equals(name)) &&
-                 (artist == null || music.Artist.Equals(artist)) &&
+                 (name == null || music.Name.Contains(name)) &&
+                 (artist == null || music.Artist.Contains(artist)) &&
                  (releaseDate == null || (check && music.ReleaseDate == time))
                  ).ToList();
 
@@ -45,25 +45,17 @@ namespace yourmusic.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostMusic(string name, string artist, string urlMusic, string releaseDate, string urlImage = "") 
+        public IActionResult PostMusic(Music music) 
         {
-            DateTime time;
-            bool check = DateTime.TryParse(releaseDate, out time);
-            
-            if(!check)
+            Music m = new Music()
             {
-                return Unauthorized("releaseDate is invalid. Format (YYYY-MM-DD)");
-            }
-
-            Music music = new Music()
-            {
-                Name = name,
-                Artist = artist,
-                UrlImage = urlImage,
-                UrlMusic = urlMusic,
-                ReleaseDate = time
+                Name = music.Name,
+                Artist = music.Artist,
+                UrlImage = music.UrlImage,
+                UrlMusic = music.UrlMusic,
+                ReleaseDate = music.ReleaseDate
             };
-            _db.Musics.Add(music);
+            _db.Musics.Add(m);
             _db.SaveChanges();
             return Ok();
         }
@@ -77,6 +69,7 @@ namespace yourmusic.Controllers
             if(music != null) 
             {
                 _db.Musics.Remove(music);
+                _db.SaveChanges();
                 return Ok($"{music.Name} is deleted");
             }
 
@@ -86,26 +79,27 @@ namespace yourmusic.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult UpdateMusic(int id, string name = null, string artist = null, string urlImage = null, string urlMusic = null, string releaseDate = null)
+        public IActionResult UpdateMusic(int id, Music music)
         {
-            Music music = _db.Musics.Find(id);
+            Music m = _db.Musics.Find(music.Id);
             if(music == null) {
                 return NoContent();
             }
 
-            DateTime time;
-            bool check = DateTime.TryParse(releaseDate, out time);
-
-            music.Name = name != null ? name : music.Name;
-            music.Artist = artist != null ? artist : music.Artist;
-            music.UrlImage = urlImage != null ? urlImage : music.UrlImage;
-            music.UrlMusic = urlMusic != null ? urlMusic : music.UrlMusic;
-            music.ReleaseDate = releaseDate != null && check ? time : music.ReleaseDate;
+            m = new Music()
+            {
+                Id = id,
+                Name = music.Name,
+                Artist = music.Artist,
+                UrlImage = music.UrlImage,
+                UrlMusic = music.UrlMusic,
+                ReleaseDate = music.ReleaseDate
+            };
 
             _db.Musics.Update(music);
             _db.SaveChanges();
 
-            return Ok($"{id} is updated");
+            return Ok($"{music.Id} is updated");
         }
     }
 }
