@@ -15,17 +15,17 @@ else
     <form class="form-inline">
         <div class="form-group mb-2">
             <label for="username" class="col-form-label">Nom</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Nom de la playlist" @bind="_addName"/>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Nom de la playlist" @bind="_addName"/> <br/>
         </div>
         <div class="form-group mx-sm-3 mb-2">
             <label for="username" class="col-form-label">Nom</label>
-            <textarea placeholder="Description" class="form-control" @bind="_addDescription"></textarea>
+            <textarea placeholder="Description" class="form-control" @bind="_addDescription"></textarea><br/>
         </div>
         <div class="form-group mx-sm-3 mb-2">
             <label for="password" class="col-form-label">Mot de passe</label>
-            <input type="text" id="url_image" class="form-control" name="url_image" placeholder="Lien d'une image (Optionnel)" @bind="_addUrlImage" />
+            <input type="text" id="url_image" class="form-control" name="url_image" placeholder="Lien d'une image (Optionnel)" @bind="_addUrlImage" /><br/>
         </div>
-        <button type="button" class="form-control" @onclick="CreatePlaylist">Ajouter</button>
+        <button type="button" class="form-control" @onclick="CreatePlaylist">Ajouter</button><br/>
     </form>
 
     @if (playlists.Length == 0)
@@ -53,7 +53,7 @@ else
                     <td style="padding:20px;"><img src="@playlist.UrlImage" alt="img" /></td>
                     <td style="padding:20px;">@playlist.Name</td>
                     <td style="padding:20px;">@playlist.Description</td>
-                    <td style="padding:20px;"><button type="button">Supprimer</button></td>
+                    <td style="padding:20px;"><button type="button" @onclick="()=> RemovePlaylist(playlist.Id)">Supprimer</button></td>
                 </tbody>
                 @foreach (var music in playlist.Musics)
                 {
@@ -107,6 +107,16 @@ else
         _addName = "";
         _addDescription = "";
         _addUrlImage = "";
+    }
+
+    public async Task RemovePlaylist(int id) 
+    {
+        string token = await localStorage.GetItemAsync<string>("Token");
+        var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:5001/api/PlaylistControllers/{id}");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        
+        using var httpResponse = await Http.SendAsync(request);
+        await UpdateList();
     }
 
     private async Task UpdateList() 
