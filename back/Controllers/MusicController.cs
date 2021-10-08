@@ -37,14 +37,15 @@ namespace yourmusic.Controllers
             bool check = DateTime.TryParse(releaseDate, out time);
             List<Music> list = _db.Musics
                  .Where(music =>
-                 (name == null || music.Name.Contains(name)) &&
-                 (artist == null || music.Artist.Contains(artist)) &&
+                 (name == null || music.Name.ToLower().Contains(name.ToLower())) &&
+                 (artist == null || music.Artist.ToLower().Contains(artist.ToLower())) &&
                  (releaseDate == null || (check && music.ReleaseDate == time))
                  ).ToList();
 
             return list;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult PostMusic(Music music) 
         {

@@ -2,6 +2,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using yourmusic.Context;
+using System.Linq;
+using yourmusic.Models;
 
 namespace yourmusic.Auth
 {
@@ -9,15 +12,15 @@ namespace yourmusic.Auth
     {
 
         private readonly string _key;
-
+        
         public AuthManager(string key) 
         {
             this._key = key;
         }
 
-        public string Connection(string username, string password)
+        public string Connection(ContextDatabase database, string username, string password)
         {
-            if(!GetUser(username, password)) {
+            if(!GetUser(database, username, password)) {
                 return null;
             }
 
@@ -37,10 +40,9 @@ namespace yourmusic.Auth
             return tokenHandler.WriteToken(token);
         }
 
-        private bool GetUser(string username, string password) 
+        private bool GetUser(ContextDatabase database, string username, string password) 
         {
-            //TODO table user 
-            return true;
+            return !database.Users.Where(user => user.Username == username).IsNullOrEmpty();
         }
     }
 }

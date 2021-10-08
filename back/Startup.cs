@@ -85,6 +85,8 @@ namespace back
 
             app.UseCors();
             
+            app.UseDefaultFiles();
+
             app.UseAuthentication();
 
             app.UseAuthorization();

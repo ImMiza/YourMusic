@@ -1,0 +1,67 @@
+@page "/connection"
+@inject IJSRuntime JSRuntime
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager;
+
+<h1>Page de connexion</h1>
+
+@if (!_connected)
+{
+<form class="form-inline">
+  <div class="form-group mb-2">
+    <label for="username" class="col-form-label">Utilisateur</label>
+    <input type="text" class="form-control" @bind="_username" name="username" id="username">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="password" class="col-form-label">Mot de passe</label>
+    <input type="password" class="form-control" @bind="_password" name="password" id="password">
+  </div>
+  <button type="button" class="btn btn-primary mb-2" @onclick="UserConnection">Se connecter</button>
+</form>
+
+}
+else 
+{
+<button type="button" @onclick="UserDisconnect">Se Deconnecter</button> 
+}
+
+
+
+@code {
+
+    private string _username;
+    private string _password;
+
+    private bool _connected;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _connected = await localStorage.GetItemAsync<bool>("Connected");
+    }
+
+    public async Task UserConnection() 
+    {
+        if(_username == null || _password == null) {
+            return;
+        }
+
+        var body = new { password = _password};
+        _password = null;
+
+        var response = await Http.PostAsJsonAsync($"https://localhost:5001/api/User/{_username}", body);
+        if(((int)response.StatusCode) == 200) {
+            string token = await response.Content.ReadAsStringAsync();
+            await localStorage.SetItemAsync("Token", token);
+            await localStorage.SetItemAsync("Connected", true);
+            _connected = true;
+            NavigationManager.NavigateTo("/", true);
+        }
+    }
+
+    public async Task UserDisconnect() {
+        await localStorage.ClearAsync();
+        _connected = false;
+        NavigationManager.NavigateTo("/", true);
+    }  
+}

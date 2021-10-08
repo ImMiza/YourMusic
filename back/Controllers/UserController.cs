@@ -7,7 +7,6 @@ using yourmusic.Auth;
 
 namespace yourmusic.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -71,7 +70,7 @@ namespace yourmusic.Controllers
         [Route("{username}")]
         public IActionResult UserConnection(string username, string password)
         {
-            var token = _auth.Connection(username, password);
+            var token = _auth.Connection(_db, username, password);
             if(token == null) {
                 return Unauthorized();
             }

@@ -1,5 +1,8 @@
 .vscode
 back/bin
+front/bin
 front/obj/Debug/
+front/obj/Release/
 back/obj/Debug/
+back/obj/Release/
 back/Database/

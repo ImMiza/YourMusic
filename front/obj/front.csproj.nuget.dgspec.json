@@ -10,11 +10,11 @@
         "projectUniqueName": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/front/front.csproj",
         "projectName": "front",
         "projectPath": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/front/front.csproj",
-        "packagesPath": "/home/miza/.nuget/packages/",
+        "packagesPath": "/root/.nuget/packages/",
         "outputPath": "/home/miza/Bureau/EFFICOM/DOTNET/project/YourMusic/front/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/miza/.nuget/NuGet/NuGet.Config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -38,6 +38,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Blazored.LocalStorage": {
+              "target": "Package",
+              "version": "[4.1.5, )"
+            },
             "Microsoft.AspNetCore.Components.WebAssembly": {
               "target": "Package",
               "version": "[5.0.10, )"

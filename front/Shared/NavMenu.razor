@@ -1,5 +1,7 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">front</a>
+﻿@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Your Music</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,29 +11,62 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> Accueil
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="connection">
+                @if (!_connected)
+                {
+                    <div><span class="oi oi-plus" aria-hidden="true"></span> Se connecter</div>
+                }
+                else
+                {
+                    <div><span class="oi oi-plus" aria-hidden="true"></span> Se Déconnecter</div>
+                }
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
+
+        @if (_connected)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="musics">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Musiques
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="playlists">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Vos Playlists
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="s">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> A propos
+                </NavLink>
+            </li>
+        }
+        
+        
     </ul>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private bool _connected;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _connected = await localStorage.GetItemAsync<bool>("Connected");
+    }
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 }
+
+
+
+    

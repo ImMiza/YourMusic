@@ -1,0 +1,71 @@
+@page "/musics"
+@using System.Net.Http.Headers
+@using yourmusic.Models
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h1>Liste des musiques disponibles</h1>
+
+@if (musics == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <label>Recherche par nom</label>
+    <input type="text" id="search" name="search" @oninput="(e)=> SearchName(e.Value.ToString())" />
+
+    <table>
+        <thead>
+            <th></th>
+            <th>Nom</th>
+            <th>Artiste</th>
+            <th>Date de Sortie</th>
+            <th></th>
+        </thead>
+
+        
+            @foreach (var music in musics)
+            {
+                <tbody>
+                    <td style="padding:20px;"><img src="@music.UrlImage" alt="@music.Artist" /></td>
+                    <td style="padding:20px;">@music.Name</td>
+                    <td style="padding:20px;">@music.Artist</td>
+                    <td style="padding:20px;">@music.ReleaseDate</td>
+                    <td style="padding:20px;"><a href="@music.UrlMusic" target="_blank"><button type="button">Ecouter</button></a></td>
+                </tbody>
+            }
+        
+    </table>
+    
+
+}
+
+@code {
+    private Music[] musics;
+
+    private string _searchName = "";
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateList();
+    }
+
+    private async Task UpdateList() 
+    {
+        string token = await localStorage.GetItemAsync<string>("Token");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:5001/api/MusicControllers?name={_searchName}");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        using var httpResponse = await Http.SendAsync(request);
+
+        if(((int) httpResponse.StatusCode) == 200) {
+            musics = await httpResponse.Content.ReadFromJsonAsync<Music[]>();
+        }
+    }
+
+    private async Task SearchName(string name) {
+        _searchName = name;
+        await UpdateList();
+    }
+
+}
